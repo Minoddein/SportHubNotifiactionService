@@ -15,6 +15,14 @@ public class SendEmailNotificationByFilter
             app.MapPost("sending", Handler);
         }
     }
+    
+    /// <summary>
+    /// Обработчик отправления уведомлений с фильтрацией
+    /// </summary>
+    /// <param name="request">Принимаемый запрос</param>
+    /// <param name="service">Сервис отправки почтовых сообщений</param>
+    /// <param name="cancellationToken">Токен отмены</param>
+    /// <returns></returns>
     private static async Task<IResult> Handler( 
         SendEmailNotificationByFilterRequest request,
         MailSenderService service,

@@ -3,6 +3,9 @@ using Serilog.Events;
 
 namespace SportHubNotificationService.Api.Extensions;
 
+/// <summary>
+/// Класс добавления расширений в веб-сервис
+/// </summary>
 public static class AddWebServices
 {
     public static IServiceCollection AddLogger(this IServiceCollection services, IConfiguration configuration)

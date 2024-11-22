@@ -1,8 +1,11 @@
 ﻿using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 
-namespace SportHubNotificationService.Application.Validators;
+namespace SportHubNotificationService.Validators;
 
+/// <summary>
+/// Валидатор для проверки корректности email формата
+/// </summary>
 public partial class EmailValidator 
 {
     private const string EMAIL_REGEX_PATTERN = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
@@ -15,6 +18,11 @@ public partial class EmailValidator
         _logger = logger;
     }
 
+    /// <summary>
+    /// Метод, вызывающий валидацию email-адрессов 
+    /// </summary>
+    /// <param name="addresses">список адрессов</param>
+    /// <returns></returns>
     public Result<List<string>> Execute(List<string> addresses)
     {
         for (int i = addresses.Count - 1; i >= 0; i--)

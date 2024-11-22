@@ -1,5 +1,8 @@
 ﻿namespace SportHubNotificationService.Options;
 
+/// <summary>
+/// Опции почты
+/// </summary>
 public class MailOptions
 {
     public const string SECTION_NAME = "MailOptions";
