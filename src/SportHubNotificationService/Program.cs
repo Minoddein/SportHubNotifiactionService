@@ -1,19 +1,12 @@
-using Serilog;
+using Hangfire;
+using SportHubNotificationService;
 using SportHubNotificationService.Api.Extensions;
 using SportHubNotificationService.Api.Middlewares;
-using SportHubNotificationService.Application.Validators;
-using SportHubNotificationService.Infrastructure.Services;
-using SportHubNotificationService.Options;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<MailOptions>(
-    builder.Configuration.GetSection(MailOptions.SECTION_NAME));
-builder.Services.AddScoped<EmailValidator>();
-builder.Services.AddScoped<MailSenderService>();
-
-builder.Services.AddLogger(builder.Configuration);
-builder.Services.AddSerilog();
+builder.Services.ConfigureApp(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,7 +21,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseHangfireDashboard();
 }
+
+app.UseHangfireServer();
 
 app.MapEndpoints();
 

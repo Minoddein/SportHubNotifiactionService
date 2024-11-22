@@ -2,12 +2,15 @@
 using CSharpFunctionalExtensions;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using SportHubNotificationService.Application.Validators;
 using SportHubNotificationService.Domain.Models;
 using SportHubNotificationService.Options;
+using EmailValidator = SportHubNotificationService.Validators.EmailValidator;
 
 namespace SportHubNotificationService.Infrastructure.Services;
 
+/// <summary>
+/// Сервис отправления сообщений по почте
+/// </summary>
 public class MailSenderService
 {
     private readonly MailOptions _mailOptions;
@@ -24,6 +27,11 @@ public class MailSenderService
         _validator = validator;
     }
 
+    /// <summary>
+    /// Метод отправки данных по почте
+    /// </summary>
+    /// <param name="mailData">данные для отправки(адресса получателей, отправитель, основная информация)</param>
+    /// <returns></returns>
     public async Task<UnitResult<string>> Send(MailData mailData)
     {
         var validationResult = _validator.Execute(mailData.To);
@@ -54,7 +62,7 @@ public class MailSenderService
         await client.SendAsync(mail);
 
         foreach (var address in mail.To)
-            _logger.LogInformation("Email succesfully sended to {to}", address);
+            _logger.LogInformation("Email successfully sended to {to}", address);
 
         return UnitResult.Success<string>();
     }

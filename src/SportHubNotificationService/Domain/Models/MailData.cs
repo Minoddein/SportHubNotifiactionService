@@ -2,6 +2,9 @@
 
 namespace SportHubNotificationService.Domain.Models;
 
+/// <summary>
+/// Данные для отправки по почте
+/// </summary>
 public class MailData
 {
     public MailData(IEnumerable<string> recievers, string subject, string body)
