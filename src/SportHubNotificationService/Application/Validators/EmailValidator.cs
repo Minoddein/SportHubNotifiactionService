@@ -7,8 +7,7 @@ public partial class EmailValidator
 {
     private const string EMAIL_REGEX_PATTERN = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
     private const string INVALID_EMAIL_ERR = "Request doesn't contain any valid reciever's adress. Aborting sending.";
-
-
+    
     private readonly ILogger<EmailValidator> _logger;
 
     public EmailValidator(ILogger<EmailValidator> logger)
