@@ -16,6 +16,7 @@ public class SendEmailJob(
             var mailData = new MailData(recievers, subject, body);
 
             await service.Send(mailData);
+            logger.LogInformation("Mail sent to reciever");
         }
         catch (Exception ex)
         {

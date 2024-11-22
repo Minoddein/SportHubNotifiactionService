@@ -62,7 +62,7 @@ public class MailSenderService
         await client.SendAsync(mail);
 
         foreach (var address in mail.To)
-            _logger.LogInformation("Email succesfully sended to {to}", address);
+            _logger.LogInformation("Email successfully sended to {to}", address);
 
         return UnitResult.Success<string>();
     }
