@@ -1,4 +1,6 @@
-﻿namespace SportHubNotificationService.Domain.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace SportHubNotificationService.Domain.Models;
 
 public class MailData
 {
@@ -12,6 +14,6 @@ public class MailData
     public List<string> To { get; set; } = [];
 
     public string Subject { get; } = string.Empty;
-    
-    public string Body { get; } = string.Empty;
+
+    public string Body { get; } = string.Empty; 
 }
