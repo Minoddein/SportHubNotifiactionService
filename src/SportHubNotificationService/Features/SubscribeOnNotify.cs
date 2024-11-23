@@ -3,6 +3,7 @@ using SportHubNotificationService.Api.Enpoints;
 using SportHubNotificationService.Domain.Models;
 using SportHubNotificationService.Infrastructure.Services;
 using SportHubNotificationService.Jobs;
+using SportHubNotificationService.Validators;
 
 namespace SportHubNotificationService.Features;
 
@@ -32,9 +33,14 @@ public class SubscribeOnNotify
     private static async Task<IResult> Handler( 
         SubscribeOnNotifyRequest request,
         MailSenderService service,
+        EmailValidator validator,
         CancellationToken cancellationToken = default)
     {
         List<string> recievers = [request.Reciever];
+
+        var validationResult = validator.Execute(recievers);
+        if (validationResult.IsFailure)
+            return Results.BadRequest(validationResult.Error);
         
         // За месяц до соревнований
         var oneMonthBefore = request.CompetitionDate.AddMinutes(1);

@@ -27,8 +27,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors(c =>
     c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
-app.UseHttpsRedirection();
-
 app.UseHangfireServer();
 
 app.MapEndpoints();
