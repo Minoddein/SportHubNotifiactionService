@@ -10,7 +10,7 @@ builder.Services.ConfigureApp(builder.Configuration);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors();
 builder.Services.AddEndpoints();
 
 var app = builder.Build();
@@ -23,6 +23,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseHangfireDashboard();
 }
+
+app.UseCors(c =>
+    c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
+app.UseHttpsRedirection();
 
 app.UseHangfireServer();
 
