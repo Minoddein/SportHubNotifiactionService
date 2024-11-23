@@ -1,9 +1,32 @@
 ﻿services:
-  sporthubnotificationservice:
-    image: sporthubnotificationservice
+  parser:
     build:
-      context: .
-      dockerfile: src/SportHubNotificationService/Dockerfile
+      context: C:/Users/rusta/PycharmProjects/SportHub-parser
+      dockerfile: C:/Users/rusta/PycharmProjects/SportHub-parser/Dockerfile
+    environment:
+      - PYTHON_VERSION=3.13
+      - POETRY_VERSION=1.8.4
+    restart: always
+  
+  notification:
+    image: notification
+    build:
+      context: C:/Users/rusta/RiderProjects/SportHub-notification-service/src/SportHubNotificationService
+      dockerfile: C:/Users/rusta/RiderProjects/SportHub-notification-service/src/SportHubNotificationService/Dockerfile
+    depends_on:
+      - postgres
+      - seq
+    restart: always
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - SMTP_SERVER=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=minoddein.ezz@gmail.com
+      - SMTP_PASSWORD=urlruiukmyuarruj
+    ports:
+      - "5004:80"
+      - "8095:443"
+
   seq:
     image: datalust/seq:latest
     container_name: seq
@@ -13,6 +36,7 @@
     ports:
       - 5341:5341
       - 8081:80
+
   postgres:
     container_name: postgres
     image: postgres:latest

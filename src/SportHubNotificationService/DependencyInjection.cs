@@ -18,6 +18,7 @@ public static class DependencyInjection
         services
             .AddExtensions(configuration)
             .AddMailConfiguration(configuration)
+            .AddTelegramConfiguration()
             .AddInfrastructure();
         
         return services;
@@ -31,6 +32,14 @@ public static class DependencyInjection
         services.AddScoped<EmailValidator>();
         services.AddScoped<MailSenderService>();
 
+        return services;
+    }
+
+    private static IServiceCollection AddTelegramConfiguration(this IServiceCollection services)
+    {
+        services.AddHttpClient();
+        services.AddScoped<TelegramBotHttpClient>();
+            
         return services;
     }
 

@@ -17,12 +17,16 @@ var app = builder.Build();
 
 app.UseExceptionMiddleware();
 
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
     app.UseHangfireDashboard();
-}
+}*/
+
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseHangfireDashboard();
 
 app.UseCors(c =>
     c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
