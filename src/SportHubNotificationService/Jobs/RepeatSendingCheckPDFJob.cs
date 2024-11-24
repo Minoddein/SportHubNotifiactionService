@@ -16,7 +16,7 @@ public class RepeatSendingCheckPDFJob(
         {
             using var client = clientFactory.CreateClient();
 
-            var route = $"/run-parser";
+            var route = $"http://localhost:4014/run-parser";
             
             using var request = new HttpRequestMessage(HttpMethod.Post, route);
             

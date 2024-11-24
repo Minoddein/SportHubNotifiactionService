@@ -1,18 +1,22 @@
 ﻿services:
   parser:
     build:
-      context: C:/Users/rusta/PycharmProjects/SportHub-parser
-      dockerfile: C:/Users/rusta/PycharmProjects/SportHub-parser/Dockerfile
+      context: ./SportHub-parser
+      dockerfile: Dockerfile
     environment:
       - PYTHON_VERSION=3.13
       - POETRY_VERSION=1.8.4
     restart: always
+    ports:
+      - "5986:5986"
   
   web:
     image: web
     build:
-      context: F:/SportHub-backend/sport-hub-web
-      dockerfile: F:/SportHub-backend/sport-hub-web/Dockerfile
+      context: ./sport-hub-web
+      dockerfile: Dockerfile
+    environment:
+      - AUTH_TRUST_HOST=true
     ports:
       - "3000:3000"
     depends_on:
@@ -21,8 +25,8 @@
   notification:
     image: notification
     build:
-      context: .
-      dockerfile: src/SportHubNotificationService/Dockerfile
+      context: ./src/SportHubNotificationService
+      dockerfile: Dockerfile
     depends_on:
       - postgres
       - seq
