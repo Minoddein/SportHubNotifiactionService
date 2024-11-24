@@ -1,12 +1,26 @@
-﻿services:
+services:
   parser:
     build:
-      context: C:/Users/rusta/PycharmProjects/SportHub-parser
-      dockerfile: C:/Users/rusta/PycharmProjects/SportHub-parser/Dockerfile
+      context: .
+      dockerfile: src/SportHubNotificationService/Dockerfile
     environment:
       - PYTHON_VERSION=3.13
       - POETRY_VERSION=1.8.4
     restart: always
+    ports:
+      - "5986:5986"
+  
+  web:
+    image: web
+    build:
+      context: ./sport-hub-web
+      dockerfile: Dockerfile
+    environment:
+      - AUTH_TRUST_HOST=true
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
   
   notification:
     image: notification

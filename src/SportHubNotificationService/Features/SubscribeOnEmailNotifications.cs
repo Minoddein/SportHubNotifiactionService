@@ -1,14 +1,17 @@
 ﻿using Hangfire;
 using SportHubNotificationService.Api.Enpoints;
-using SportHubNotificationService.Domain.Models;
 using SportHubNotificationService.Infrastructure.Services;
 using SportHubNotificationService.Jobs;
+using SportHubNotificationService.Validators;
 
 namespace SportHubNotificationService.Features;
 
-public class SubscribeOnNotify
+/// <summary>
+/// Подписаться на события отправки уведомлений
+/// </summary>
+public class SubscribeOnEmailNotifications
 {
-    private record SubscribeOnNotifyRequest(
+    private record SubscribeOnEmailNotificationsRequest(
         string Reciever, 
         DateTime CompetitionDate,
         string Subject,
@@ -18,7 +21,7 @@ public class SubscribeOnNotify
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapPost("subscribing", Handler);
+            app.MapPost("email-notification", Handler);
         }
     }
     
@@ -30,11 +33,18 @@ public class SubscribeOnNotify
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns></returns>
     private static async Task<IResult> Handler( 
-        SubscribeOnNotifyRequest request,
+        SubscribeOnEmailNotificationsRequest request,
         MailSenderService service,
+        EmailValidator validator,
         CancellationToken cancellationToken = default)
     {
         List<string> recievers = [request.Reciever];
+
+        var validationResult = validator.Execute(recievers);
+        if (validationResult.IsFailure)
+            return Results.BadRequest(validationResult.Error);
+        
+        //TODO: Для теста в минутах: через 1,2,3
         
         // За месяц до соревнований
         var oneMonthBefore = request.CompetitionDate.AddMinutes(1);
