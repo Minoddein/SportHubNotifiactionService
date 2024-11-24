@@ -1,8 +1,10 @@
 ﻿services:
+  sporthubnotificationservice:
+    image: sporthubnotificationservice
   parser:
     build:
-      context: ./SportHub-parser
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/SportHubNotificationService/Dockerfile
     environment:
       - PYTHON_VERSION=3.13
       - POETRY_VERSION=1.8.4
