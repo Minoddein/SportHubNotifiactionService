@@ -2,6 +2,7 @@ using Hangfire;
 using SportHubNotificationService;
 using SportHubNotificationService.Api.Extensions;
 using SportHubNotificationService.Api.Middlewares;
+using SportHubNotificationService.Jobs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,8 +32,16 @@ app.UseHangfireDashboard();
 app.UseCors(c =>
     c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
+app.UseSwagger();
+app.UseSwaggerUI();
+app.UseHangfireDashboard();
+
 app.UseHangfireServer();
 
 app.MapEndpoints();
 
+RecurringJob.AddOrUpdate<RepeatSendingCheckPDFJob>(
+    j => j.Execute(), "0 */6 * * *");
+
 app.Run();
+

@@ -30,7 +30,7 @@ public class TelegramBotHttpClient(
 
         var route = $"https://api.telegram.org/bot{token}/sendMessage";
             
-        using var request = new HttpRequestMessage(HttpMethod.Put, route);
+        using var request = new HttpRequestMessage(HttpMethod.Post, route);
         request.Content = content;
             
         var response = await client.SendAsync(request, cancellationToken);

@@ -8,25 +8,35 @@
       - POETRY_VERSION=1.8.4
     restart: always
   
+  web:
+    image: web
+    build:
+      context: F:/SportHub-backend/sport-hub-web
+      dockerfile: F:/SportHub-backend/sport-hub-web/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+  
   notification:
     image: notification
     build:
-      context: C:/Users/rusta/RiderProjects/SportHub-notification-service/src/SportHubNotificationService
-      dockerfile: C:/Users/rusta/RiderProjects/SportHub-notification-service/src/SportHubNotificationService/Dockerfile
+      context: .
+      dockerfile: src/SportHubNotificationService/Dockerfile
     depends_on:
       - postgres
       - seq
     restart: always
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker
-      - SMTP_SERVER=smtp.gmail.com
-      - SMTP_PORT=587
-      - SMTP_USERNAME=minoddein.ezz@gmail.com
-      - SMTP_PASSWORD=urlruiukmyuarruj
+        - ASPNETCORE_ENVIRONMENT=Docker
+        - SMTP_SERVER=smtp.gmail.com
+        - SMTP_PORT=587
+        - SMTP_USERNAME=minoddein.ezz@gmail.com
+        - SMTP_PASSWORD=urlruiukmyuarruj
     ports:
       - "5004:80"
       - "8095:443"
-
+      
   seq:
     image: datalust/seq:latest
     container_name: seq
@@ -36,7 +46,6 @@
     ports:
       - 5341:5341
       - 8081:80
-
   postgres:
     container_name: postgres
     image: postgres:latest
