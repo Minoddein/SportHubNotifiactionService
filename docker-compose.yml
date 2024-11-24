@@ -1,6 +1,4 @@
-﻿services:
-  sporthubnotificationservice:
-    image: sporthubnotificationservice
+services:
   parser:
     build:
       context: .
@@ -27,8 +25,8 @@
   notification:
     image: notification
     build:
-      context: ./src/SportHubNotificationService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/SportHubNotificationService/Dockerfile
     depends_on:
       - postgres
       - seq
