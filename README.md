@@ -13,6 +13,7 @@
 - C# — язык программирования
 - ASP.NET Core — веб-фреймворк для разработки REST API
 - Entity Framework Core 8 — ORM для работы с базой данных
+- Seq — сервер для централизованного сбора, хранения и визуализации журнальных данных.
 - [Hangfire](https://github.com/HangfireIO/Hangfire/) ^1.18.5 — библиотека для планирования и выполнения фоновых задач
 - [Serilog](https://github.com/Serilog/serilog) ^4.11.0 — библиотека для логгирования
 - [MailKit](https://github.com/jstedfast/MailKit) ^4.0.0 — библиотека для отправки электронной почты
