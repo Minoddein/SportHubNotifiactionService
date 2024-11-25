@@ -1,0 +1,6 @@
+﻿services:
+  notification:
+    image: notification
+    build:
+      context: .
+      dockerfile: Notification/Dockerfile
