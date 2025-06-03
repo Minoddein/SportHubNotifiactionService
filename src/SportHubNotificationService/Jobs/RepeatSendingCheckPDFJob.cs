@@ -1,11 +1,11 @@
-﻿using System.Text;
-using Hangfire;
-using Newtonsoft.Json;
-using SportHubNotificationService.Domain.Models;
+﻿using Hangfire;
+using Microsoft.Extensions.Options;
+using SportHubNotificationService.Options;
 
 namespace SportHubNotificationService.Jobs;
 
 public class RepeatSendingCheckPDFJob(
+    IOptions<ParserOptions> parserOptions,
     IHttpClientFactory clientFactory,
     ILogger<SendToTelegramRequestJob> logger)
 {
@@ -16,22 +16,12 @@ public class RepeatSendingCheckPDFJob(
         {
             using var client = clientFactory.CreateClient();
 
-            var route = $"http://localhost:4014/run-parser";
-            
-            using var request = new HttpRequestMessage(HttpMethod.Post, route);
-            
-            var response = await client.SendAsync(request);
+            var route = parserOptions.Value.ParserURL;
 
-            if (response.IsSuccessStatusCode)
-            {
-                var responseData = await response.Content.ReadAsStringAsync();
-                logger.LogInformation($"Response: {responseData}");
-            }
-            else
-            {
-                logger.LogError($"Error: {response.StatusCode}");
-            }
-            
+            using var request = new HttpRequestMessage(HttpMethod.Post, route);
+
+            await client.SendAsync(request);
+
             logger.LogInformation("request sent to parser");
         }
         catch (Exception ex)

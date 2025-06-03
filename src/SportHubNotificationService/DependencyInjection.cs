@@ -20,6 +20,8 @@ public static class DependencyInjection
             .AddMailConfiguration(configuration)
             .AddTelegramConfiguration()
             .AddInfrastructure();
+
+        services.Configure<ParserOptions>(configuration.GetSection(ParserOptions.SECTION_NAME));
         
         return services;
     }

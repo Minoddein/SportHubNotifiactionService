@@ -12,7 +12,7 @@ namespace SportHubNotificationService.Features;
 public class SubscribeOnEmailNotifications
 {
     private record SubscribeOnEmailNotificationsRequest(
-        string Reciever, 
+        string Receiver, 
         DateTime CompetitionDate,
         string Subject,
         string Body);
@@ -32,35 +32,35 @@ public class SubscribeOnEmailNotifications
     /// <param name="service">Сервис отправки почтовых сообщений</param>
     /// <param name="cancellationToken">Токен отмены</param>
     /// <returns></returns>
-    private static async Task<IResult> Handler( 
+    private static Task<IResult> Handler( 
         SubscribeOnEmailNotificationsRequest request,
         MailSenderService service,
         EmailValidator validator,
         CancellationToken cancellationToken = default)
     {
-        List<string> recievers = [request.Reciever];
+        List<string> receivers = [request.Receiver];
 
-        var validationResult = validator.Execute(recievers);
+        var validationResult = validator.Execute(receivers);
         if (validationResult.IsFailure)
-            return Results.BadRequest(validationResult.Error);
+            return Task.FromResult(Results.BadRequest(validationResult.Error));
         
         //TODO: Для теста в минутах: через 1,2,3
         
         // За месяц до соревнований
         var oneMonthBefore = request.CompetitionDate.AddMinutes(1);
         BackgroundJob.Schedule<SendEmailJob>(job => 
-            job.Execute(recievers, request.Subject, request.Body), oneMonthBefore);
+            job.Execute(receivers, request.Subject, request.Body), oneMonthBefore);
 
         // За неделю до соревнований
         var oneWeekBefore = request.CompetitionDate.AddMinutes(2);
         BackgroundJob.Schedule<SendEmailJob>(job => 
-            job.Execute(recievers, request.Subject, request.Body), oneWeekBefore);
+            job.Execute(receivers, request.Subject, request.Body), oneWeekBefore);
         
         // За два дня до соревнований
         var twoDaysBefore = request.CompetitionDate.AddMinutes(3);
         BackgroundJob.Schedule<SendEmailJob>(job => 
-            job.Execute(recievers, request.Subject, request.Body), twoDaysBefore);
+            job.Execute(receivers, request.Subject, request.Body), twoDaysBefore);
         
-        return Results.Ok();
+        return Task.FromResult(Results.Ok());
     }
 }
